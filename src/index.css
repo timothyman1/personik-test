@@ -17,5 +17,5 @@ body {
 }
 
 .btn-secondary {
-    @apply bg-violet-600 text-white p-1.5 rounded-md font-medium transition hover:bg-violet-700;
+    @apply bg-violet-600 text-white p-1.5 rounded-md font-medium transition hover:bg-violet-700 disabled:bg-gray-400;
 }

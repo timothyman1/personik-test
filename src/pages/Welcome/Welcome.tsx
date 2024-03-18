@@ -1,5 +1,6 @@
-import { Card } from "../../components";
 import React from "react";
+
+import { Card } from "@/components";
 
 interface WelcomeProps {
   onStartGame: () => void;
