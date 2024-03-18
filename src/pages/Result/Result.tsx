@@ -1,27 +1,37 @@
-import { Card } from "../../components";
+import { Card } from "@/components";
 import React from "react";
 
 interface ResultProps {
   onRestartGame: () => void;
   lastCity: string;
   totalCities: number;
+  winner: string;
 }
 
 const Result: React.FC<ResultProps> = ({
   onRestartGame,
   lastCity,
   totalCities,
+  winner,
 }) => {
   return (
     <>
       <Card>
         <div className="p-10 text-xl font-normal text-center max-w-xl w-full xl:w-[576px]">
           <h1 className="mb-8 w-full">
-            К сожалению твое время вышло!
+            {winner === "player"
+              ? "Поздравляем тебя с победой!"
+              : "К сожалению твое время вышло!"}
             <br />
-            Твой противник победил
+            {winner === "player"
+              ? "Твой противник не вспомнил нужный город!"
+              : "Твой противник победил"}
           </h1>
-          <p className="mb-8 text-3xl text-red-600 font-medium w-full">0:00</p>
+          <p
+            className={`mb-8 text-3xl ${winner === "player" ? "text-green-600" : "text-red-600"} font-medium w-full`}
+          >
+            0:00
+          </p>
           <p className="mb-8 w-full">
             Всего было перечислено городов: {totalCities}
             <br />
