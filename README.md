@@ -1,30 +1,50 @@
-# React + TypeScript + Vite
+# Игра города
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
+### Процесс разработки
 
-Currently, two official plugins are available:
+- верстка и построение макета по шаблону из фигмы
+- добавление folder alias в `vite.config` и `tsconfig`
+- реализация ввода городов, их проверка и создание чата
+- кодсплитинг и разделение вспомогающих функций
+- создание `useTimer` хука и компонента `Timer`
+- изменение компонента результатов и фиксап
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+### Некоторые замечания
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- изначальный текстовый файл с городами перевел в json через отдельную js функцию для удобства работы
+- города оканчивающиеся на буквы "ы" и "й" тоже пропускал, чтобы "соперник" мог искать города. (т.к. в списке нет городова начинающихся на эти буквы)
 
-- Configure the top-level `parserOptions` property like this:
-
+---
+Код для программы для перевода в `json`
 ```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+const fs = require('fs');
+const path = require('path');
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+const filePath = path.join(__dirname, 'cities.txt');
+
+fs.readFile(filePath, 'utf-8', (err, data) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+
+  const cities = data.split('\n');
+
+  const cleanCities = cities.filter((city) => city.trim() !== '');
+
+  const json = JSON.stringify(cleanCities, null, 2);
+
+  console.log(json);
+
+  const jsonFilePath = path.join(__dirname, 'cities.json');
+
+  fs.writeFile(jsonFilePath, json, (err) => {
+    if (err) {
+      console.log(err);
+    }
+  });
+});
+```
